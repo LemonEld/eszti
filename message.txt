@@ -1,0 +1,47 @@
+<?php $mysqli = new mysqli("localhost", "root", "", "pizzazo");
+if ($mysqli -> connect_errno) {
+	echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
+	exit();
+} 
+if (isset($_GET['id'])) {
+	$sql = "SELECT * FROM pizza WHERE id = '".$_GET['id']."'";
+	$result = $mysqli -> query($sql);
+	while ($row = $result -> fetch_assoc()) { ?>
+		<form method="post" action="index.php?id=<?php echo $row['id'] ?>&update=true"> 
+			id: <input type=text name=id value="<?php echo $row['id'] ?>" readonly> <br>
+			nev: <input type=text name=nev value="<?php echo $row['nev'] ?>"> <br>
+			meret: <select name=meret>
+				<option value=32 <?php if ($row['meret'] == 32) echo "selected" ?>>32</option>
+				<option value=45 <?php if ($row['meret'] == 45) echo "selected" ?>>45</option>
+				<option value=60 <?php if ($row['meret'] == 60) echo "selected" ?>>60</option>
+			</select> <br>
+			alap(paradicsomos): <input type=radio name=alap value="paradicsomos" <?php if ($row['alap'] == "paradicsomos") echo "checked" ?>> <br>
+			alap(tejfolos): <input type=radio name=alap value="tejfolos" <?php if ($row['alap'] == "tejfolos") echo "checked" ?>> <br>
+			leiras: <input type=text name=leiras value="<?php echo $row['leiras'] ?>"> <br>
+			eros: <input type=checkbox name=eros value=eros <?php if ($row['eros']) echo "checked" ?>> <br>
+			hagymas: <input type=checkbox name=hagymas value=hagymas <?php if ($row['hagymas']) echo "checked" ?>> <br>
+			<input type=submit value=adatmodositas>
+		</form> <?php 
+		if (isset($_GET['update'])) {
+			$sql = "UPDATE pizza SET nev = '".$_POST['nev']."', meret = '".$_POST['meret']."', alap = '".$_POST['alap']."', leiras = '".$_POST['leiras']."', eros = '".$_POST['eros']."', hagymas = '".$_POST['hagymas']."' WHERE id = '".$_POST['id']."'";
+			$mysqli -> query($sql);
+			header("Location: index.php?updated_id=" . $_POST['id'] . "");
+		}	
+	}
+} else {
+	$sql = "SELECT * FROM pizza";
+	$result = $mysqli -> query($sql);
+	while ($row = $result -> fetch_assoc()) {
+		if (isset($_GET['updated_id'])) {
+			if ($_GET['updated_id'] == $row['id']) {
+				echo "<b>";
+			}
+		} ?>
+		<div>
+			<?php echo $row['nev'] . " " . $row['meret'] . " " . $row['alap'] . " " . $row['leiras'] . " " . $row['eros'] . " " . $row['hagymas'] . " "; ?></b>
+			<a href="index.php?id=<?php echo $row['id'] ?>"> modositas </a>
+		</div> <?php
+	}
+}
+$result -> free_result();
+$mysqli -> close(); ?>
