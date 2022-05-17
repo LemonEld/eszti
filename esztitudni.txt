@@ -1,0 +1,5 @@
+"id";"nev";"meret";"alap";"leiras";"eros";"hagymas"
+"1";"vegyes";"32";"paradicsomos";"vegyes pizza";"eros";"hagymas"
+"2";"kulenos";"45";"paradicsomos";"kulenos pizza";;"hagymas"
+"3";"kukoricas";"45";"tejfolos";"kukoricas pizza";;
+"4";"ananaszos";"60";"tejfolos";"ananaszos pizza";"eros";
