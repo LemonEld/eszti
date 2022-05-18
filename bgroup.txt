@@ -1,0 +1,38 @@
+elso n =
+  [n | n<-[n-1,n-2..0], mod n 2 /=0]
+
+masodik n o 
+  |(n>0) = masodik (n-1) (o+n*n)
+  |otherwise = show o
+
+harmadik a b =
+  length [n | n<-[a..b], mod n 4 == 0, mod n 3 /=0 ]
+
+negyedik l = map (*2) l
+
+otodik l = filter (<15) l
+
+hatodik [] nl = reverse nl
+
+hatodik (x:y) nl =
+  if mod x 2 == 0
+    then 
+      hatodik y (0:(x:nl))
+    else
+      hatodik y (x:nl)
+
+hetedik [] n k nl = reverse nl
+hetedik (x:y) n k nl =
+  if x==n
+    then
+      hetedik y n k ((n-k):nl)
+    else
+      hetedik y n k (x:nl)
+nyolca [] [] l3 = reverse l3
+nyolca (x1:y1) (x2:y2) l3 = nyolca y1 y2 ((x1+x2):l3)
+nyolcb l1 l2 l3 = nyolca l1 (reverse l2) l3
+nyolcdo [] [] l3 = reverse l3
+nyolcdo (x1:y1) (x2:y2) l3 = nyolcdo y1 y2 ((x1,x2):l3) 
+nyolcc l1 l2 l3 = nyolcdo l1 l4 l3
+  where l4=nyolcb l1 l2 []
+main = print(nyolcc [1,2,3,4,5] [4,10,5,9,6] [])

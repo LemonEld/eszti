@@ -1,0 +1,49 @@
+elso n =
+    [n | n<-[n, n-1..0], mod n 2 /= 0]
+masodik n =
+    sum([n**2 | n<-[1..n]])
+harmadik a b =
+    length ([n | n<-[a..b], mod n 4 == 0, mod n 3 /= 0])
+negyedik [] m=
+    reverse m
+negyedik (x:y) m=
+    negyedik y ((x+1):m)
+otodik [] m=
+    reverse m
+otodik (x:y) m=
+    if x < 15
+        then
+            otodik y (x:m)
+        else
+            otodik y m
+hatodik [] m=
+    reverse m
+hatodik (x:y) m=
+    if mod x 2 == 0
+        then
+            hatodik y (0:(x:m))
+        else
+            hatodik y (x:m)
+hetedik [] h e m=
+    reverse m
+hetedik (x:y) h e m=
+    if x==h
+        then
+            hetedik y h e ((x-e):m)
+        else
+            hetedik y h e (x:m)
+nyolcadikmegold [] [] m=
+    reverse m
+nyolcadikmegold (x1:y1) (x2:y2) m=
+    nyolcadikmegold y1 y2 ((x1, x1+x2):m)
+nyolcadik l1 l2=
+    nyolcadikmegold l1 (reverse l2) []
+main = do
+    print(elso 5)
+    print(masodik 4)
+    print(harmadik 1 16)
+    print(negyedik [0,1,2,3,4] [])
+    print(otodik [15,17,1,20,14,3] [])
+    print(hatodik [1,2,3,4,5] [])
+    print(hetedik [1,2,3,5,4,3,6] 3 4 [])
+    print(nyolcadik [1,2,3,4,5] [4,10,5,9,6])
